@@ -1,0 +1,26 @@
+page-home {
+
+ion-list {
+    .item-inner {
+        margin-left: 0 !important;
+    }
+    .item-md {
+        ion-thumbnail {
+            min-width:50px;
+            min-height:50px;
+            width:50px;
+            height:62px;
+            margin-bottom:4px;
+            margin-top:4px;
+        }
+    }
+    .label-md {
+        margin: 6px 10px 6px 0;
+    }
+
+    ion-avatar {
+        margin: 0 !important;
+    }
+    
+}
+}

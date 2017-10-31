@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar text-center>
+    <ion-title>ionic-通讯录</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="toManage()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div padding>
+    <ion-segment [(ngModel)]="type">
+      <ion-segment-button value="contact">
+        通讯录
+      </ion-segment-button>
+      <ion-segment-button value="dial">
+        通话记录
+      </ion-segment-button>
+      <ion-segment-button value="favorite">
+        收藏
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="type">
+    <ion-list *ngSwitchCase="'contact'" [ngStyle]="{'border-top':'1px solid #eee','border-bottom':'1px solid #eee'}">
+      <ion-item *ngFor="let item of deviceContactsObs | async ; let i=index" (click)="call(item)">
+        <!--<ion-item *ngFor="let item of deviceContacts; let i=index" (click)="call(item)">-->
+        <ion-avatar item-left>
+          <ion-icon name='contact' item-left [ngStyle]="{'color':getRandomColor(i)}" style="font-size:60px"></ion-icon>
+        </ion-avatar>
+        <h2 style="margin:5px;">{{item.displayName}}</h2>
+        <p>{{ showPhone(item) }}</p>
+        <ion-icon name='ios-information-circle-outline' item-right (click)="toDetail(item,$event)"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'dial'">
+      <ion-item *ngFor="let item of contactService.dialList" (click)="call(item)">
+        <ion-icon name='ios-call-outline' item-left color='blue' style="font-size:40px"></ion-icon>
+        <h2 style="margin:5px;">{{item.displayName}}</h2>
+        <p>{{ showPhone(item) }}</p>
+        <p style="margin:5px;" item-right>{{item.timestamp | date:'yyyy/MM/dd hh:mm:ss' }}</p>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'favorite'">
+      <ion-item *ngFor="let item of contactService.favorateContacts" (click)="call(item)">
+        <ion-thumbnail (click)="toDetail(item,$event)" item-left>
+          <img [src]="showAvator(item)" style="height:62px;">
+        </ion-thumbnail>
+        <h2 style="margin:5px;">{{item.displayName}}</h2>
+        <p>{{ showPhone(item) }}</p>
+        <ion-icon name='star' item-right></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
